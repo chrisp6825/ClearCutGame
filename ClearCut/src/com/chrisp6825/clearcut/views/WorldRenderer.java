@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.chrisp6825.clearcut.models.Log;
 import com.chrisp6825.clearcut.screens.PlayScreen;
 
 public class WorldRenderer {
@@ -35,18 +36,20 @@ public class WorldRenderer {
 	public void renderDegub(float delta) {
 		sr.setProjectionMatrix(camera.combined);
 		
-		float logFallCount = playScreen.getWorldController().getLogController().getLogFallCount();
-		float sliceMark = playScreen.getWorldController().getLogController().getLogList().get(0).getSliceMark();
-		
 		sr.begin(ShapeType.Filled);
-		sr.setColor(Color.BLACK);
 		
 		// players cut line
-		sr.rect(0,.40f*Gdx.graphics.getHeight(),Gdx.graphics.getWidth(),3);
+		sr.setColor(Color.BLUE);
+		sr.rect(0,.40f*Gdx.graphics.getHeight(),Gdx.graphics.getWidth(),1);
 		
-		sr.rect(100, (float) (300 - logFallCount), 35, 316);
-		sr.setColor(Color.RED);
-		sr.rect(75, (float) (300 - logFallCount)+sliceMark, 75, 2);
+		// draw logs
+		for (Log log : playScreen.getWorldController().getLogController().getLogList()) {
+			sr.setColor(Color.BLACK);
+			sr.rect(log.getX(), log.getY(), log.getWidth(), log.getHeight());
+			sr.setColor(Color.WHITE);
+			sr.rect(log.getX() - 5, log.getY() + log.getSliceMark(), log.getWidth() + 10, 3);
+		}
+		
 		sr.end();
 	}
 

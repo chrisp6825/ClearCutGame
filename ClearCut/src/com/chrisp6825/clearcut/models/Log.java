@@ -4,12 +4,18 @@ public class Log {
 	
 	private int index;
 	private String state;
-	private int sliceMark;
+	private float sliceMark;
+	
+	private float x, y, width, height;
 	
 	public Log(int n) {
 		this.index = n;
 		this.setState("ready");
 		this.setSliceMark(20); // lower is down
+		this.setY(300);
+		this.setX(90 * (this.index+1));
+		this.setWidth(35);
+		this.setHeight(315);
 		System.out.println("log created : " + n);
 	}
 	
@@ -25,14 +31,62 @@ public class Log {
 
 
 
-	public int getSliceMark() {
+	public float getSliceMark() {
 		return sliceMark;
 	}
 
 
 
-	public void setSliceMark(int sliceMark) {
-		this.sliceMark = sliceMark;
+	public void setSliceMark(float f) {
+		this.sliceMark = f;
+	}
+
+
+
+	public float getX() {
+		return x;
+	}
+
+
+
+	public void setX(float x) {
+		this.x = x;
+	}
+
+
+
+	public float getY() {
+		return y;
+	}
+
+
+
+	public void setY(float y) {
+		this.y = y;
+	}
+
+
+
+	public float getWidth() {
+		return width;
+	}
+
+
+
+	public void setWidth(float width) {
+		this.width = width;
+	}
+
+
+
+	public float getHeight() {
+		return height;
+	}
+
+
+
+	public void setHeight(float height) {
+		this.height = height;
 	}
 
 }

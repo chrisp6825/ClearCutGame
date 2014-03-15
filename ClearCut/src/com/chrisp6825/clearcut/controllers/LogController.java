@@ -3,6 +3,7 @@ package com.chrisp6825.clearcut.controllers;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.badlogic.gdx.Gdx;
 import com.chrisp6825.clearcut.models.Log;
 
 
@@ -38,8 +39,8 @@ public class LogController {
 			logFallCount += velocity;
 			for (int i = 0; i < numberLogs; i++) {
 				logList.get(i).setState(logState);
+				logList.get(i).setY(logList.get(i).getY() - velocity);
 			}
-//			System.out.println("LogFallCount : " + logFallCount);
 		}
 	}
 	
@@ -62,22 +63,34 @@ public class LogController {
 		velocity = 0;
 		for (int i = 0; i < numberLogs; i++) {
 			logList.get(i).setState("ready");
+			logList.get(i).setY(300);
 		}
-		System.out.println("player cut : " + playerCutMark);
-		System.out.println("target cut : " + logList.get(0).getSliceMark());
 	}
 	
 	public void randomizeLogs(int dif) {
-		int randnum = rand.nextInt(80)+10;
-		System.out.println("randnum : " + randnum);
+		float randnum = rand.nextFloat();
 		for (int i = 0; i < numberLogs; i++) {
-			logList.get(i).setSliceMark(randnum);
+			logList.get(i).setSliceMark(randnum*logList.get(i).getHeight());
 		}
 	}
 
 	public void cutLog() {
-		setPlayerCutMark(logFallCount);
+		setPlayerCutMark((.4f * Gdx.graphics.getHeight()) - logList.get(0).getY());
+		// if playercutmark < 0 then player cut before log
+		// if playercutmark > Log.height then player cut after log
+		// if playercutmark == targetcut then player hit the mark
+		logState = "cut";
+		for (int i = 0; i < numberLogs; i++) {
+			logList.get(i).setState("cut");
+		}
+		
+		System.out.println("-----------");
+		System.out.println("player cut : " + playerCutMark);
+		System.out.println("target cut : " + logList.get(0).getSliceMark());
+		System.out.println("-----------");
 	}
+	
+	// get and set
 
 	public ArrayList<Log> getLogList() {
 		return logList;
