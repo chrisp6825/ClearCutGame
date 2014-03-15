@@ -19,8 +19,8 @@ public class Log {
 		System.out.println("log created : " + n);
 	}
 	
+	// get and set
 	
-
 	public String getState() {
 		return state;
 	}
@@ -29,61 +29,41 @@ public class Log {
 		this.state = state;
 	}
 
-
-
 	public float getSliceMark() {
 		return sliceMark;
 	}
-
-
 
 	public void setSliceMark(float f) {
 		this.sliceMark = f;
 	}
 
-
-
 	public float getX() {
 		return x;
 	}
-
-
 
 	public void setX(float x) {
 		this.x = x;
 	}
 
-
-
 	public float getY() {
 		return y;
 	}
-
-
 
 	public void setY(float y) {
 		this.y = y;
 	}
 
-
-
 	public float getWidth() {
 		return width;
 	}
-
-
 
 	public void setWidth(float width) {
 		this.width = width;
 	}
 
-
-
 	public float getHeight() {
 		return height;
 	}
-
-
 
 	public void setHeight(float height) {
 		this.height = height;
