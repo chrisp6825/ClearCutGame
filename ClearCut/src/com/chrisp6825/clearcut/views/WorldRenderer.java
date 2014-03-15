@@ -47,7 +47,7 @@ public class WorldRenderer {
 			sr.setColor(Color.BLACK);
 			sr.rect(log.getX(), log.getY(), log.getWidth(), log.getHeight());
 			sr.setColor(Color.WHITE);
-			sr.rect(log.getX() - 5, log.getY() + log.getSliceMark(), log.getWidth() + 10, 3);
+			sr.rect(log.getX() - 5, log.getY() + log.getTarget(), log.getWidth() + 10, 3);
 		}
 		
 		sr.end();

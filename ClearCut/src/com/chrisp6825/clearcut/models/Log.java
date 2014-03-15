@@ -4,14 +4,14 @@ public class Log {
 	
 	private int index;
 	private String state;
-	private float sliceMark;
+	private float target;
 	
 	private float x, y, width, height;
 	
 	public Log(int n) {
 		this.index = n;
 		this.setState("ready");
-		this.setSliceMark(20); // lower is down
+		this.setTarget(20); // lower is down
 		this.setY(300);
 		this.setX(90 * (this.index+1));
 		this.setWidth(35);
@@ -29,12 +29,12 @@ public class Log {
 		this.state = state;
 	}
 
-	public float getSliceMark() {
-		return sliceMark;
+	public float getTarget() {
+		return target;
 	}
 
-	public void setSliceMark(float f) {
-		this.sliceMark = f;
+	public void setTarget(float f) {
+		this.target = f;
 	}
 
 	public float getX() {

@@ -70,7 +70,7 @@ public class LogController {
 	public void randomizeLogs(int dif) {
 		float randnum = rand.nextFloat();
 		for (int i = 0; i < numberLogs; i++) {
-			logList.get(i).setSliceMark(randnum*logList.get(i).getHeight());
+			logList.get(i).setTarget(randnum*logList.get(i).getHeight());
 		}
 	}
 
@@ -86,7 +86,7 @@ public class LogController {
 		
 		System.out.println("-----------");
 		System.out.println("player cut : " + playerCutMark);
-		System.out.println("target cut : " + logList.get(0).getSliceMark());
+		System.out.println("target cut : " + logList.get(0).getTarget());
 		System.out.println("-----------");
 	}
 	
