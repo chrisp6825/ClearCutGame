@@ -15,7 +15,7 @@ public class Log {
 		this.setY(300);
 		this.setX(90 * (this.index+1));
 		this.setWidth(35);
-		this.setHeight(315);
+		this.setHeight(250);
 		System.out.println("log created : " + n);
 	}
 	
