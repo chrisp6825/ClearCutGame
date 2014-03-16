@@ -26,19 +26,16 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         if (WorldInputKeys.isPressed(WorldInputKeys.B)) {
-        	worldController.getLogController().startDrop();;
+        	worldController.getLogController().startDrop();
         }
         if (WorldInputKeys.isPressed(WorldInputKeys.A)) {
-        	worldController.getLogController().resetLogs();
         }
         if (WorldInputKeys.isPressed(WorldInputKeys.ENTER)) {
-        	worldController.getLogController().randomizeLogs();
         }
         if (WorldInputKeys.isPressed(WorldInputKeys.DOWN)) {
-        	worldController.getLogController().swingAtLog();
+        	worldController.getLogController().swingAtLog(0);
         }
         if (WorldInputKeys.isPressed(WorldInputKeys.UP)) {
-        	worldController.getLogController().reviewLogs();
         }
 
         

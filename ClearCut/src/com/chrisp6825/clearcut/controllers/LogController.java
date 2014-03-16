@@ -30,10 +30,14 @@ public class LogController {
 		logList = new ArrayList<Log>();
 		logState = "ready";
 		logFallCount = 0;
-		rand = new java.util.Random(42);
+		rand = new java.util.Random(System.currentTimeMillis()%200);
+		for (int i = 0; i < System.currentTimeMillis()%20; i++) {
+			rand.nextFloat();
+		}
 		playerCutMark = 0;
 		
 		createLogs();
+		randomizeLogs();
 	}
 
 	public void update(float delta) {
@@ -41,7 +45,6 @@ public class LogController {
 			velocity += gravity * GRAVITYSCALE * delta;
 			logFallCount += velocity;
 			for (int i = 0; i < numberLogs; i++) {
-//				logList.get(i).setState(logState);
 				logList.get(i).setY(logList.get(i).getY() - velocity);
 			}
 			if (logFallCount > 800) {
@@ -108,7 +111,6 @@ public class LogController {
 		velocity = 0;
 		for (int i = 0; i < numberLogs; i++) {
 			logList.get(i).setState("ready");
-//			logList.get(i).setY(300);
 			logList.get(i).setCutMark(0);
 		}
 	}
@@ -120,31 +122,30 @@ public class LogController {
 		}
 	}
 
-	public void swingAtLog() {
+	public void swingAtLog(int log) {
+		if (log >= numberLogs)
+			return;
+		
 		setPlayerCutMark((.4f * Gdx.graphics.getHeight()) - logList.get(0).getY());
-//		logState = "cut";
-		for (int i = 0; i < numberLogs; i++) {
-//			logList.get(i).setState("cut");
-			logList.get(i).setCutMark((.4f * Gdx.graphics.getHeight()) - logList.get(i).getY());
-			if (playerCutMark < 0) {
-				//player swung too early
-				System.out.println("early!");
-			} else if (playerCutMark > logList.get(i).getHeight()) {
-				// player swung too late
-				System.out.println("late!");
-			} else {
-				// player hit log
-				cutLog(i);
-				if (Math.abs(playerCutMark - logList.get(i).getTarget()) < this.getDifficulty()) {
-					// close enough
-					System.out.println("Target hit");
-				}
+		logList.get(log).setCutMark((.4f * Gdx.graphics.getHeight()) - logList.get(log).getY());
+		if (playerCutMark < 0) {
+			//player swung too early
+			System.out.println("early!");
+		} else if (playerCutMark > logList.get(log).getHeight()) {
+			// player swung too late
+			System.out.println("late!");
+		} else {
+			// player hit log
+			cutLog(log);
+			if (Math.abs(playerCutMark - logList.get(log).getTarget()) < this.getDifficulty()) {
+				// close enough
+				System.out.println("Target hit");
 			}
 		}
 		
 		System.out.println("-----------");
-		System.out.println("player cut : " + playerCutMark);
-		System.out.println("target cut : " + logList.get(0).getTarget());
+		System.out.println("log  " + log + " cut : " + playerCutMark);
+		System.out.println("target cut : " + logList.get(log).getTarget());
 		System.out.println("-----------");
 	}
 	
@@ -159,10 +160,6 @@ public class LogController {
 		logState = "reviewing";
 		velocity = 0;
 		waitTime = System.currentTimeMillis() + 3000;
-		
-//		for (int i = 0; i < numberLogs; i++) {
-//			logList.get(i).setY(35);
-//		}
 	}
 	
 	// get and set
