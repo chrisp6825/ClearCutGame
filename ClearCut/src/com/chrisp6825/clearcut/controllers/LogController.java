@@ -22,6 +22,7 @@ public class LogController {
 	private float GRAVITYSCALE = 1f;
 	
 	private Random rand;
+	private long waitTime;
 	
 	public LogController(int numLogs, int difficulty) {
 		this.numberLogs = numLogs;
@@ -36,12 +37,48 @@ public class LogController {
 	}
 
 	public void update(float delta) {
-		if (logState.equals("falling") && logFallCount < 620) {
+		if (logState.equals("falling")) {
 			velocity += gravity * GRAVITYSCALE * delta;
 			logFallCount += velocity;
 			for (int i = 0; i < numberLogs; i++) {
-				logList.get(i).setState(logState);
+//				logList.get(i).setState(logState);
 				logList.get(i).setY(logList.get(i).getY() - velocity);
+			}
+			if (logFallCount > 800) {
+				logState = "goingToReview";
+			}
+			
+		} else if (logState.equals("waiting")) {
+			if (System.currentTimeMillis() >= waitTime) {
+				dropLogs();
+			}
+			
+		} else if (logState.equals("goingToReview")) {
+			for (int i = 0; i < numberLogs; i++) {
+				logList.get(i).setY(logList.get(i).getY() + 3);
+				if (logList.get(i).getY() >= 35) {
+					reviewLogs();
+				}
+			}
+			
+		} else if (logState.equals("reviewing") && System.currentTimeMillis() >= waitTime) {
+			logState = "leavingReview";
+			
+		} else if (logState.equals("leavingReview")) {
+			for (int i = 0; i < numberLogs; i++) {
+				logList.get(i).setY(logList.get(i).getY() - 4);
+				if (logList.get(i).getY() <= -300) {
+					randomizeLogs();
+					resetLogs();
+				}
+			}
+			
+		} else if (logState.equals("resetting")) {
+			for (int i = 0; i < numberLogs; i++) {
+				logList.get(i).setY(logList.get(i).getY() + 3);
+				if (logList.get(i).getY() >= 300) {
+					startDrop();
+				}
 			}
 		}
 	}
@@ -50,6 +87,12 @@ public class LogController {
 		for (int i = 0; i < numberLogs; i++) {
 			logList.add(new Log(i));
 		}
+	}
+	
+	public void startDrop() {
+		waitTime = (Math.abs(rand.nextInt(5)-3)*1000) + System.currentTimeMillis() + 500;
+		System.out.println("Log ready, waiting to drop...");
+		logState = "waiting";
 	}
 	
 	public void dropLogs() {
@@ -61,19 +104,19 @@ public class LogController {
 	
 	public void resetLogs() {
 		logFallCount = 0;
-		logState = "ready";
+		logState = "resetting";
 		velocity = 0;
 		for (int i = 0; i < numberLogs; i++) {
 			logList.get(i).setState("ready");
-			logList.get(i).setY(300);
+//			logList.get(i).setY(300);
 			logList.get(i).setCutMark(0);
 		}
 	}
 	
 	public void randomizeLogs() {
-		float randnum = rand.nextFloat();
+		float randnum = rand.nextInt(80) + 10;
 		for (int i = 0; i < numberLogs; i++) {
-			logList.get(i).setTarget(randnum*logList.get(i).getHeight());
+			logList.get(i).setTarget((randnum/100)*logList.get(i).getHeight());
 		}
 	}
 
@@ -85,13 +128,16 @@ public class LogController {
 			logList.get(i).setCutMark((.4f * Gdx.graphics.getHeight()) - logList.get(i).getY());
 			if (playerCutMark < 0) {
 				//player swung too early
+				System.out.println("early!");
 			} else if (playerCutMark > logList.get(i).getHeight()) {
 				// player swung too late
+				System.out.println("late!");
 			} else {
 				// player hit log
+				cutLog(i);
 				if (Math.abs(playerCutMark - logList.get(i).getTarget()) < this.getDifficulty()) {
 					// close enough
-					System.out.println("HIT!");
+					System.out.println("Target hit");
 				}
 			}
 		}
@@ -102,14 +148,21 @@ public class LogController {
 		System.out.println("-----------");
 	}
 	
-	public void cutLog(int l) {
+	public void cutLog(int log) {
+		System.out.println("log was cut");
+		logList.get(log).setState("cut");
 		
 	}
 	
-	public void presentLogs() {
-		for (int i = 0; i < numberLogs; i++) {
-			logList.get(i).setY(35);
-		}
+	public void reviewLogs() {
+		logFallCount = 0;
+		logState = "reviewing";
+		velocity = 0;
+		waitTime = System.currentTimeMillis() + 3000;
+		
+//		for (int i = 0; i < numberLogs; i++) {
+//			logList.get(i).setY(35);
+//		}
 	}
 	
 	// get and set

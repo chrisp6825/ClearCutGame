@@ -26,7 +26,7 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         if (WorldInputKeys.isPressed(WorldInputKeys.B)) {
-        	worldController.getLogController().dropLogs();
+        	worldController.getLogController().startDrop();;
         }
         if (WorldInputKeys.isPressed(WorldInputKeys.A)) {
         	worldController.getLogController().resetLogs();
@@ -38,7 +38,7 @@ public class PlayScreen implements Screen {
         	worldController.getLogController().swingAtLog();
         }
         if (WorldInputKeys.isPressed(WorldInputKeys.UP)) {
-        	worldController.getLogController().presentLogs();
+        	worldController.getLogController().reviewLogs();
         }
 
         

@@ -35,13 +35,13 @@ public class WorldRenderer {
 	
 	public void renderDegub(float delta) {
 		sr.setProjectionMatrix(camera.combined);
-		
+
 		sr.begin(ShapeType.Filled);
-		
+
 		// players cut aim
 		sr.setColor(Color.BLUE);
 		sr.rect(0,.40f*Gdx.graphics.getHeight(),Gdx.graphics.getWidth(),1);
-		
+
 		// draw logs
 		for (Log log : playScreen.getWorldController().getLogController().getLogList()) {
 			sr.setColor(Color.BLACK);
@@ -49,10 +49,12 @@ public class WorldRenderer {
 			sr.setColor(Color.WHITE);
 			sr.rect(log.getX() - 5, log.getY() + log.getTarget(), log.getWidth() + 10, 3);
 			// players cut on log
-			sr.setColor(Color.GREEN);
-			sr.rect(log.getX() - 5,log.getY() + log.getCutMark() - (playScreen.getWorldController().getLogController().getDifficulty()),log.getWidth() + 10,playScreen.getWorldController().getLogController().getDifficulty()*2);
+			if (log.getState().equals("cut")) {
+				sr.setColor(Color.GREEN);
+				sr.rect(log.getX() - 5,log.getY() + log.getCutMark() - (playScreen.getWorldController().getLogController().getDifficulty()),log.getWidth() + 10,playScreen.getWorldController().getLogController().getDifficulty()*2);
+			}
 		}
-		
+
 		sr.end();
 	}
 
