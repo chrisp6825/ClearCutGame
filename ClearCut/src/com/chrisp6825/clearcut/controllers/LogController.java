@@ -13,6 +13,7 @@ public class LogController {
 	private ArrayList<Log> logList;
 	private String logState;
 	private float logFallCount;
+	private int difficulty;
 	
 	private float playerCutMark;
 	
@@ -22,8 +23,9 @@ public class LogController {
 	
 	private Random rand;
 	
-	public LogController(int numLogs) {
+	public LogController(int numLogs, int difficulty) {
 		this.numberLogs = numLogs;
+		this.setDifficulty(difficulty);
 		logList = new ArrayList<Log>();
 		logState = "ready";
 		logFallCount = 0;
@@ -64,30 +66,50 @@ public class LogController {
 		for (int i = 0; i < numberLogs; i++) {
 			logList.get(i).setState("ready");
 			logList.get(i).setY(300);
+			logList.get(i).setCutMark(0);
 		}
 	}
 	
-	public void randomizeLogs(int dif) {
+	public void randomizeLogs() {
 		float randnum = rand.nextFloat();
 		for (int i = 0; i < numberLogs; i++) {
 			logList.get(i).setTarget(randnum*logList.get(i).getHeight());
 		}
 	}
 
-	public void cutLog() {
+	public void swingAtLog() {
 		setPlayerCutMark((.4f * Gdx.graphics.getHeight()) - logList.get(0).getY());
-		// if playercutmark < 0 then player cut before log
-		// if playercutmark > Log.height then player cut after log
-		// if playercutmark == targetcut then player hit the mark
-		logState = "cut";
+//		logState = "cut";
 		for (int i = 0; i < numberLogs; i++) {
-			logList.get(i).setState("cut");
+//			logList.get(i).setState("cut");
+			logList.get(i).setCutMark((.4f * Gdx.graphics.getHeight()) - logList.get(i).getY());
+			if (playerCutMark < 0) {
+				//player swung too early
+			} else if (playerCutMark > logList.get(i).getHeight()) {
+				// player swung too late
+			} else {
+				// player hit log
+				if (Math.abs(playerCutMark - logList.get(i).getTarget()) < this.getDifficulty()) {
+					// close enough
+					System.out.println("HIT!");
+				}
+			}
 		}
 		
 		System.out.println("-----------");
 		System.out.println("player cut : " + playerCutMark);
 		System.out.println("target cut : " + logList.get(0).getTarget());
 		System.out.println("-----------");
+	}
+	
+	public void cutLog(int l) {
+		
+	}
+	
+	public void presentLogs() {
+		for (int i = 0; i < numberLogs; i++) {
+			logList.get(i).setY(35);
+		}
 	}
 	
 	// get and set
@@ -118,6 +140,14 @@ public class LogController {
 
 	public void setPlayerCutMark(float playerCutMark) {
 		this.playerCutMark = playerCutMark;
+	}
+
+	public int getDifficulty() {
+		return difficulty;
+	}
+
+	public void setDifficulty(int difficulty) {
+		this.difficulty = difficulty;
 	}
 
 }

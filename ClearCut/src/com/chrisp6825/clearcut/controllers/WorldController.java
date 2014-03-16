@@ -7,7 +7,7 @@ public class WorldController {
 	private LogController logController;
 	
 	public WorldController(PlayScreen playScreen) {
-		setLogController(new LogController(1));
+		setLogController(new LogController(1,10));
 	}
 	
 	public void dispose() {

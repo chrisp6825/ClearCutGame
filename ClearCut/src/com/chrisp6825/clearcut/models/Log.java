@@ -4,7 +4,8 @@ public class Log {
 	
 	private int index;
 	private String state;
-	private float target;
+	private float target, cutMark;
+	private boolean hit;
 	
 	private float x, y, width, height;
 	
@@ -67,6 +68,14 @@ public class Log {
 
 	public void setHeight(float height) {
 		this.height = height;
+	}
+
+	public float getCutMark() {
+		return cutMark;
+	}
+
+	public void setCutMark(float cutMark) {
+		this.cutMark = cutMark;
 	}
 
 }

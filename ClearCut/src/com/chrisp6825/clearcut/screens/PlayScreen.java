@@ -32,10 +32,13 @@ public class PlayScreen implements Screen {
         	worldController.getLogController().resetLogs();
         }
         if (WorldInputKeys.isPressed(WorldInputKeys.ENTER)) {
-        	worldController.getLogController().randomizeLogs(0);
+        	worldController.getLogController().randomizeLogs();
         }
         if (WorldInputKeys.isPressed(WorldInputKeys.DOWN)) {
-        	worldController.getLogController().cutLog();
+        	worldController.getLogController().swingAtLog();
+        }
+        if (WorldInputKeys.isPressed(WorldInputKeys.UP)) {
+        	worldController.getLogController().presentLogs();
         }
 
         
